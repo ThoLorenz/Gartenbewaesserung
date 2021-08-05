@@ -10,5 +10,6 @@ func main() {
 	fmt.Println("starten..")
 	database.InitDatabase()
 
+	//test
 	//Models.GetFunksteckdosenListe()
 }
