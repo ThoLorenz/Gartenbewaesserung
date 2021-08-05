@@ -1,0 +1,19 @@
+[
+{
+    "Name": "Steckdose_Wasserventil", 
+    "Kennung":"B",
+    "Status": 0,
+    "Systemcode": "10011",
+    "DipCode": "01000",
+    "Pulslaenge": 300
+},
+{
+    "Name": "Steckdose_Pumpe", 
+    "Kennung":"A",
+    "Status": 0,
+    "Systemcode": "10011",
+    "DipCode": "11000",
+    "Pulslaenge": 300
+}
+
+]
