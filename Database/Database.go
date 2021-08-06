@@ -11,8 +11,6 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-var db *gorm.DB
-
 type Connection struct {
 	Provider   string
 	ConnString string
@@ -27,8 +25,19 @@ func InitDatabase() {
 		log.Println("Database Connection konnte nicht hergestellt werden")
 	} else {
 		log.Println("Database Connection erfolgreich erstellt")
-		AutoMigrateDB()
+		AutoMigrateDB(db, err)
 	}
+}
+
+func AutoMigrateDB(db *gorm.DB, err error) {
+	if err != nil {
+		fmt.Print(err)
+	}
+	db.Debug().AutoMigrate(&models.Funksteckdose{})
+	db.Debug().AutoMigrate(&models.Wasserventil{})
+	db.Debug().AutoMigrate(&models.Feuchtigkeitssensor{})
+	db.Debug().AutoMigrate(&models.Hochbeet{})
+	fmt.Println("... AutoMigration beendet")
 }
 
 func GetConnectionString() *Connection {
@@ -43,24 +52,4 @@ func GetConnectionString() *Connection {
 		fmt.Println("error:", err)
 	}
 	return &conn
-}
-
-func AutoMigrateDB() {
-	conn := GetConnectionString()
-	db, err := gorm.Open(conn.Provider, conn.ConnString)
-	defer db.Close()
-	if err != nil {
-		fmt.Print(err)
-	}
-	log.Println("... erstelle Tabelle 'Funksteckdose")
-	db.Debug().AutoMigrate(&models.Funksteckdose{})
-
-	log.Println("... erstelle Tabelle 'Wasserventil")
-	db.Debug().AutoMigrate(&models.Wasserventil{})
-
-	log.Println("... erstelle Tabelle 'Feuchtigkeitssensor")
-	db.Debug().AutoMigrate(&models.Feuchtigkeitssensor{})
-
-	log.Println("... erstelle Tabelle 'Hochbeet")
-	db.Debug().AutoMigrate(&models.Hochbeet{})
 }

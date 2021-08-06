@@ -1,0 +1,4 @@
+{
+    "Provider": "mysql",
+    "ConnString":  "snooker147admin:admin2020lorenz@tcp(127.0.0.1:3306)/gartenbewaesserung?charset=utf8&parseTime=True"
+}
