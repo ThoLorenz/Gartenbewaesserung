@@ -4,20 +4,26 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"time"
 
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 type Funksteckdose struct {
-	gorm.Model
+	ID             int    `gorm:"column:id;autoIncrement;type:int"`
 	Name           string `sql:"size:30" gorm:"column:name;not null"`
 	Kennung        string `sql:"size:5" gorm:"column:kennung;not null"`
 	Status         int    `gorm:"column:status;not null"`
 	Systemcode     string `sql:"size:5" gorm:"column:systemcode;not null"`
 	DipCode        string `sql:"size:5" gorm:"column:dipStatus;not null"`
 	Pulslaenge     int    `gorm:"column:pulslaenge"`
-	WasserventilID uint   // die ID kommt über das gorm.Model
+	WasserventilID int    `gorm:"column:wasserventilId"`
+	Wasserventil   Wasserventil
+	PumpeID        int
+	Pumpe          Pumpe
+	ErstelltAm     time.Time `gorm:"column:erstelltAm"`
+	GeändertAm     time.Time `gorm:"column:geaendertAm"`
+	GelöschtAm     time.Time `gorm:"column:geloeschtAm"`
 }
 
 //var funkList []Funksteckdose
