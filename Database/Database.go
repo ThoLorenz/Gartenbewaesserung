@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/mysql"
+	"gorm.io/driver/mysql"
+	"gorm.io/gorm"
 )
 
 type Connection struct {
@@ -18,9 +18,18 @@ type Connection struct {
 
 func InitDatabase() {
 	conn := GetConnectionString()
-	db, err := gorm.Open(conn.Provider, conn.ConnString)
-	db.SingularTable(true)
-	defer db.Close()
+	dsn := conn.ConnString
+	db, err := gorm.Open(mysql.New(mysql.Config{
+		DSN: dsn,
+
+		//	NamingStrategy:  schema.NamingStrategy{TablePrefix: "t_", SingularTable: true},
+		DefaultStringSize:        256,  // default size for string fields
+		DisableDatetimePrecision: true, // disable datetime precision, which not supported before MySQL 5.6
+		//	DontSupportRenameIndex:    true,  // drop & create when rename index, rename index not supported before MySQL 5.7, MariaDB
+		//DontSupportRenameColumn:   true,  // `change` when rename column, rename column not supported before MySQL 8, MariaDB
+		//	SkipInitializeWithVersion: false, // auto configure based on currently MySQL version
+	}), &gorm.Config{})
+
 	if err != nil {
 		log.Println("Database Connection konnte nicht hergestellt werden")
 	} else {
@@ -33,10 +42,12 @@ func AutoMigrateDB(db *gorm.DB, err error) {
 	if err != nil {
 		fmt.Print(err)
 	}
-	db.Debug().AutoMigrate(&models.Funksteckdose{})
-	db.Debug().AutoMigrate(&models.Wasserventil{})
-	db.Debug().AutoMigrate(&models.Feuchtigkeitssensor{})
-	db.Debug().AutoMigrate(&models.Hochbeet{})
+	//db.SingularTable(true)
+	db.AutoMigrate(&models.Funksteckdose{})
+	db.AutoMigrate(&models.Wasserventil{})
+	db.AutoMigrate(&models.Feuchtigkeitssensor{})
+	db.AutoMigrate(&models.Hochbeet{})
+	db.AutoMigrate(&models.Pumpe{})
 	fmt.Println("... AutoMigration beendet")
 }
 

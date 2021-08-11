@@ -14,7 +14,7 @@ type Wasserventil struct {
 	Status                int    `gorm:"column:status;not null default 0"`
 	Dauer                 int    `gorm:"column:dauer;not null default 1"`
 	Durchflussmenge       int    `gorm:"column:durchflussmenge"`
-	FeuchtigkeitssensorID int    `gorm:"column:feuchtigkeitssensorId"`
+	FeuchtigkeitssensorID int    `gorm:"column:feuchtigkeitssensorID"`
 	//	Funksteckdose         Funksteckdose `gorm:"column:funksteckdose;not null"`
 	ErstelltAm time.Time `gorm:"column:erstelltAm"`
 	GeändertAm time.Time `gorm:"column:geaendertAm"`
