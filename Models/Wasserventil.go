@@ -15,10 +15,10 @@ type Wasserventil struct {
 	Dauer                 int    `gorm:"column:dauer;not null default 1"`
 	Durchflussmenge       int    `gorm:"column:durchflussmenge"`
 	FeuchtigkeitssensorID int    `gorm:"column:feuchtigkeitssensorID"`
-	//	Funksteckdose         Funksteckdose `gorm:"column:funksteckdose;not null"`
-	ErstelltAm time.Time `gorm:"column:erstelltAm"`
-	GeändertAm time.Time `gorm:"column:geaendertAm"`
-	GelöschtAm time.Time `gorm:"column:geloeschtAm"`
+	Funksteckdose         Funksteckdose
+	ErstelltAm            time.Time `gorm:"column:erstelltAm"`
+	GeändertAm            time.Time `gorm:"column:geaendertAm"`
+	GelöschtAm            time.Time `gorm:"column:geloeschtAm"`
 	// Hochbeet Hochbeet `gorm:"column:hochbeet;not null"`
 	// HochbeetID      int
 }

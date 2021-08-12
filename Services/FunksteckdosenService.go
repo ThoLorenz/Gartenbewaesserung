@@ -3,20 +3,23 @@ package Services
 import (
 	database "GartenBewaesserung/Database"
 	models "GartenBewaesserung/Models"
-	"strconv"
+	"encoding/json"
+	_ "strconv"
 	"time"
+	_ "time"
 
 	//	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	_ "github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 func Create(w http.ResponseWriter, r *http.Request) {
+
 	conn := database.GetConnectionString()
 	db, err := gorm.Open(conn.Provider, conn.ConnString)
 	if err != nil {
@@ -24,26 +27,20 @@ func Create(w http.ResponseWriter, r *http.Request) {
 	} else {
 		fmt.Println("-- erstelle Funksteckdose --")
 	}
-	vars := mux.Vars(r)
-	name := vars["Name"]
-	kennung := vars["Kennung"]
-	status, err := strconv.Atoi(vars["Status"])
-	if err != nil {
-		log.Println("Fehler bei status : ", err)
-	}
-	systemcode := vars["Systemcode"]
-	dipcode := vars["DipCode"]
 
-	pulslaenge, err := strconv.Atoi(vars["Pulslaenge"])
-	if err != nil {
-		log.Println("Fehler bei status : ", err)
+	model := models.Funksteckdose{}
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&model); err != nil {
+		fmt.Println(http.StatusBadRequest, err.Error())
+		return
 	}
-	erstelltAm := time.Now()
-
-	db.Create(&models.Funksteckdose{Name: name, Kennung: kennung, Status: status, Systemcode: systemcode,
-		DipCode: dipcode, Pulslaenge: pulslaenge, ErstelltAm: erstelltAm})
+	model.ErstelltAm = time.Now()
+	defer r.Body.Close()
+	if err := db.Save(&model).Error; err != nil {
+		fmt.Println(w, http.StatusInternalServerError, err.Error())
+		return
+	}
 	fmt.Println(" ******* Steckdose wurde erstellt ")
-
 }
 
 func Get(w http.ResponseWriter, r *http.Request) {
@@ -60,7 +57,7 @@ func Get(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func GetList() []models.Funksteckdose {
+func GetList(w http.ResponseWriter, r *http.Request) {
 
 	// GetList from DB
 	conn := database.GetConnectionString()
@@ -74,14 +71,12 @@ func GetList() []models.Funksteckdose {
 
 		db.Find(&listFunksteckdose)
 
-		fmt.Println("{}", listFunksteckdose)
+		for index, element := range listFunksteckdose {
+			fmt.Println("nr: ", index, "Name: ", element.Kennung+" "+element.Systemcode)
+			// index is the index where we are
+			// element is the element from someSlice for where we are
+		}
 		//	json.NewEncoder(w).Encode(listFunksteckdose)
 	}
-	// for index, element := range listFunksteckdose {
-	// 	fmt.Println("nr: ", index, "Name: ", element.Kennung+" "+element.Systemcode)
-	// 	// index is the index where we are
-	// 	// element is the element from someSlice for where we are
-	// }
 
-	return listFunksteckdose
 }
