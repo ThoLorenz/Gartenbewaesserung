@@ -122,7 +122,7 @@ func CreateStandardObjectsForDb() {
 
 		hochbeet_1.ListSensoren = []models.Feuchtigkeitssensor{feuchtsensor_1_1, feuchtsensor_1_2}
 
-		models.DeleteSingleSensor(hochbeet_1, 2)
+		models.DeleteSingleSensorById(hochbeet_1, 2)
 
 	}
 }
