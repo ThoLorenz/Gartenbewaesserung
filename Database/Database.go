@@ -43,8 +43,18 @@ func AutoMigrateDB(db *gorm.DB, err error) {
 		fmt.Print(err)
 	}
 	//db.SingularTable(true)
+	db.Migrator().DropTable(&models.Hochbeet{})
+	db.Migrator().DropTable(&models.Feuchtigkeitssensor{})
+	db.Migrator().DropTable(&models.Wasserventil{})
+	db.Migrator().DropTable(&models.Durchlaufsensor{})
+	db.Migrator().DropTable(&models.Pumpe{})
+	db.Migrator().DropTable(&models.Funksteckdose{})
+	fmt.Println("... DropTable beendet")
+
 	db.AutoMigrate(&models.Funksteckdose{})
+	db.AutoMigrate(&models.Durchlaufsensor{})
 	db.AutoMigrate(&models.Wasserventil{})
+
 	db.AutoMigrate(&models.Feuchtigkeitssensor{})
 	db.AutoMigrate(&models.Hochbeet{})
 	db.AutoMigrate(&models.Pumpe{})
