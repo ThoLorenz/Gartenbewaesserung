@@ -1,9 +1,8 @@
 package main
 
 import (
-	database "GartenBewaesserung/Database"
-	_ "GartenBewaesserung/Models"
-	funksteckdoseService "GartenBewaesserung/Services"
+	_database "GartenBewaesserung/Database"
+	_services "GartenBewaesserung/Services"
 	"fmt"
 	"net/http"
 
@@ -11,13 +10,22 @@ import (
 )
 
 func main() {
-	fmt.Println("starten..")
-	database.InitDatabase()
-	router := mux.NewRouter()
-	router.HandleFunc("/funksteckdose/create", funksteckdoseService.Create).Methods("POST")
-	router.HandleFunc("/funksteckdose", funksteckdoseService.Get).Methods("GET")
-	router.HandleFunc("/funksteckdose/list", funksteckdoseService.GetList).Methods("GET")
-	http.ListenAndServe(":8000", router)
+	_database.InitDatabase()
+	_services.CreateStandardObjectsForDb()
+	AddHttpEndpoints()
+
 	//	funksteckdoseService.Create()
 	//Models.GetFunksteckdosenListe()
+}
+
+func AddHttpEndpoints() {
+	fmt.Println(" ... erstelle API-Endpunkte ..")
+	router := mux.NewRouter()
+	router.HandleFunc("/funksteckdose/create", _services.Create).Methods("POST")
+	router.HandleFunc("/funksteckdose", _services.Get).Methods("GET")
+	router.HandleFunc("/funksteckdose/list", _services.GetList).Methods("GET")
+	router.HandleFunc("/funksteckdose/delete/{id}", _services.Delete).Methods("DELETE")
+
+	http.ListenAndServe(":8000", router)
+
 }

@@ -5,13 +5,11 @@ import (
 	helper "GartenBewaesserung/Helper"
 	models "GartenBewaesserung/Models"
 	"encoding/json"
-	"strconv"
-	"time"
-
-	//	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
+	"strconv"
+	"time"
 
 	mux "github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
@@ -26,20 +24,21 @@ func Create(w http.ResponseWriter, r *http.Request) {
 		log.Println("Database Connection konnte nicht hergestellt werden")
 		return
 	} else {
-	defer db.Close()
-	model := models.Funksteckdose{}
-	decoder := json.NewDecoder(r.Body)
-	if err := decoder.Decode(&model); err != nil {
-		helper.ResponseError(w, http.StatusBadRequest, err.Error())
-		return
+		defer db.Close()
+		model := models.Funksteckdose{}
+		decoder := json.NewDecoder(r.Body)
+		if err := decoder.Decode(&model); err != nil {
+			helper.ResponseError(w, http.StatusBadRequest, err.Error())
+			return
+		}
+		model.ErstelltAm = time.Now()
+		defer r.Body.Close()
+		if err := db.Save(&model).Error; err != nil {
+			helper.ResponseError(w, http.StatusInternalServerError, err.Error())
+			return
+		}
+		fmt.Println(" ******* Steckdose wurde erstellt ")
 	}
-	model.ErstelltAm = time.Now()
-	defer r.Body.Close()
-	if err := db.Save(&model).Error; err != nil {
-		helper.ResponseError(w, http.StatusInternalServerError, err.Error())
-		return
-	}
-	fmt.Println(" ******* Steckdose wurde erstellt ")
 }
 
 func Delete(w http.ResponseWriter, r *http.Request) {

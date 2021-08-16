@@ -9,16 +9,16 @@ import (
 )
 
 type Wasserventil struct {
-	ID                    int    `gorm:"column:id;autoIncrement;type:int"`
-	Name                  string `sql:"size:30" gorm:"column:name"`
-	Status                int    `gorm:"column:status;not null default 0"`
-	Dauer                 int    `gorm:"column:dauer;not null default 1"`
-	Durchflussmenge       int    `gorm:"column:durchflussmenge"`
-	FeuchtigkeitssensorID int    `gorm:"column:feuchtigkeitssensorID"`
-	Funksteckdose         Funksteckdose
-	ErstelltAm            time.Time `gorm:"column:erstelltAm"`
-	GeändertAm            time.Time `gorm:"column:geaendertAm"`
-	GelöschtAm            time.Time `gorm:"column:geloeschtAm"`
+	ID              int           `gorm:"column:id;autoIncrement;type:int"`
+	Funksteckdose   Funksteckdose //`gorm:"foreignKey:id"`
+	FunksteckdoseID uint
+	Name            string    `sql:"size:30" gorm:"column:name"`
+	Status          int       `gorm:"column:status;not null default 0"`
+	Dauer           int       `gorm:"column:dauer;not null default 1"`
+	Durchflussmenge int       `gorm:"column:durchflussmenge"`
+	ErstelltAm      time.Time `gorm:"column:erstelltAm"`
+	GeändertAm      time.Time `gorm:"column:geaendertAm"`
+	GelöschtAm      time.Time `gorm:"column:geloeschtAm"`
 	// Hochbeet Hochbeet `gorm:"column:hochbeet;not null"`
 	// HochbeetID      int
 }

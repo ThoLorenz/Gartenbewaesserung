@@ -7,7 +7,10 @@ import (
 )
 
 type Feuchtigkeitssensor struct {
-	ID              int       `gorm:"column:id;autoIncrement;type:int"`
+	ID              int `gorm:"primaryKey;column:id;autoIncrement;type:int"`
+	HochbeetID      uint
+	Wasserventil    Wasserventil
+	WasserventilID  uint
 	Name            string    `sql:"size:30" gorm:"column:name;not null"`
 	MinFeuchtigkeit int       `gorm:"column:maxFeuchtigkeit;type:int"`
 	MaxFeuchtigkeit int       `gorm:"column:minFeuchtigkeit;type:int"`
@@ -15,9 +18,8 @@ type Feuchtigkeitssensor struct {
 	ErstelltAm      time.Time `gorm:"column:erstelltAm"`
 	GeändertAm      time.Time `gorm:"column:geaendertAm"`
 	GelöschtAm      time.Time `gorm:"column:geloeschtAm"`
-	HochbeetID      int       `gorm:"column:hochbeetID;not null;type:int"`
-	Wasserventil    Wasserventil
-	WasserventilID  int `gorm:"columns:wasserventilId"`
+
+	//WasserventilID  int `gorm:"columns:wasserventilId"`
 }
 
 func GetFeuchtigkeitssensorListe() {

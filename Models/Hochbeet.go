@@ -6,12 +6,12 @@ import (
 )
 
 type Hochbeet struct {
-	ID           int    `gorm:"column:id;autoIncrement;type:int"`
-	Name         string `sql:"size:30" gorm:"column:name;not null"`
-	ListSensoren []Feuchtigkeitssensor
-	ErstelltAm   time.Time `gorm:"column:erstelltAm"`
-	GeändertAm   time.Time `gorm:"column:geaendertAm"`
-	GelöschtAm   time.Time `gorm:"column:geloeschtAm"`
+	ID           int                   `gorm:"column:id;autoIncrement;type:int"`
+	Name         string                `sql:"size:30" gorm:"column:name;not null"`
+	ListSensoren []Feuchtigkeitssensor // `gorm:"foreignKey:ID"`
+	ErstelltAm   time.Time             `gorm:"column:erstelltAm"`
+	GeändertAm   time.Time             `gorm:"column:geaendertAm"`
+	GelöschtAm   time.Time             `gorm:"column:geloeschtAm"`
 }
 
 // func GeneriereHochbeet(vent *Wasserventil) *Hochbeet {

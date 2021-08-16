@@ -9,18 +9,18 @@ import (
 )
 
 type Funksteckdose struct {
-	ID             int       `gorm:"column:id;autoIncrement;type:int"`
-	Name           string    `sql:"size:30" gorm:"column:name;not null"`
-	Kennung        string    `sql:"size:5" gorm:"column:kennung;not null"`
-	Status         int       `gorm:"column:status;not null"`
-	Systemcode     string    `sql:"size:5" gorm:"column:systemcode;not null"`
-	DipCode        string    `sql:"size:5" gorm:"column:dipCode;not null"`
-	Pulslaenge     int       `gorm:"column:pulslaenge"`
-	ErstelltAm     time.Time `gorm:"column:erstelltAm"`
-	GeändertAm     time.Time `gorm:"column:geaendertAm"`
-	GelöschtAm     time.Time `gorm:"column:geloeschtAm"`
-	WasserventilID int       `gorm:"column:wasserventilId"`
-	PumpeID        int       `gorm:"column:pumpeId"`
+	ID         int       `gorm:"column:id;autoIncrement;type:int"`
+	Name       string    `sql:"size:30" gorm:"column:name;not null"`
+	Kennung    string    `sql:"size:5" gorm:"column:kennung;not null"`
+	Status     int       `gorm:"column:status;not null"`
+	Systemcode string    `sql:"size:5" gorm:"column:systemcode;not null"`
+	DipCode    string    `sql:"size:5" gorm:"column:dipCode;not null"`
+	Pulslaenge int       `gorm:"column:pulslaenge"`
+	ErstelltAm time.Time `gorm:"column:erstelltAm"`
+	GeändertAm time.Time `gorm:"column:geaendertAm"`
+	GelöschtAm time.Time `gorm:"column:geloeschtAm"`
+	//	WasserventilID int       `gorm:"column:wasserventilId"`
+	//	PumpeID        int       `gorm:"column:pumpeId"`
 }
 
 //var funkList []Funksteckdose
