@@ -16,7 +16,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
-// test
+// test 11
 // Funksteckdose anlegen
 func CreateFunksteckdose(w http.ResponseWriter, r *http.Request) {
 	conn := database.GetConnectionString()
