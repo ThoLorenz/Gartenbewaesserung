@@ -21,11 +21,22 @@ func main() {
 func AddHttpEndpoints() {
 	fmt.Println(" ... erstelle API-Endpunkte ..")
 	router := mux.NewRouter()
-	router.HandleFunc("/funksteckdose/create", _services.Create).Methods("POST")
-	router.HandleFunc("/funksteckdose", _services.Get).Methods("GET")
-	router.HandleFunc("/funksteckdose/list", _services.GetList).Methods("GET")
-	router.HandleFunc("/funksteckdose/delete/{id}", _services.Delete).Methods("DELETE")
-
+	AddFunksteckdoseEndpoints(router)
+	AddWasserventilEndpoints(router)
 	http.ListenAndServe(":8000", router)
 
+}
+
+func AddFunksteckdoseEndpoints(router *mux.Router) {
+	router.HandleFunc("/funksteckdose/create", _services.CreateFunksteckdose).Methods("POST")
+	router.HandleFunc("/funksteckdose", _services.GetFunksteckdose).Methods("GET")
+	router.HandleFunc("/funksteckdose/list", _services.GetListFunksteckdose).Methods("GET")
+	router.HandleFunc("/funksteckdose/delete/{id}", _services.DeleteFunksteckdose).Methods("DELETE")
+}
+
+func AddWasserventilEndpoints(router *mux.Router) {
+	router.HandleFunc("/wasserventil/create", _services.CreateWasserventil).Methods("POST")
+	router.HandleFunc("/wasserventil", _services.GetWasserventil).Methods("GET")
+	router.HandleFunc("/wasserventil/list", _services.GetListWasserventile).Methods("GET")
+	router.HandleFunc("/wasserventil/delete/{id}", _services.DeleteWasserventil).Methods("DELETE")
 }
