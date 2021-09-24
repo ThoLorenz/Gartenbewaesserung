@@ -8,7 +8,7 @@ trigger:
 
 steps:
 - bash: |
-    git push --prune https://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@github.com/ThoLorenz/Gartenbewaesserung \
+    git push --prune https://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@github.com/ThoLorenz/Gartenbewaesserung \
         +refs/remotes/origin/*:refs/heads/* +refs/tags/*:refs/tags/*
   displayName: 'Copy to Github'
   condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
